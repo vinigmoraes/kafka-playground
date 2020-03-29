@@ -1,0 +1,19 @@
+{
+  "type": "record",
+  "name": "Transaction",
+  "namespace": "br.com.bank",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "user_id",
+      "type": "string"
+    },
+    {
+      "name": "amount",
+      "type": "string"
+    }
+  ]
+}
