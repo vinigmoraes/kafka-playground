@@ -1,14 +1,28 @@
 package br.com.bank.application.account
 
+import br.com.bank.application.account.transfer.event.TransferEvent
+import br.com.bank.core.account.AccountService
 import br.com.bank.core.user.ports.Consumer
-import com.fasterxml.jackson.databind.ObjectMapper
+import br.com.bank.infrastructure.user.consumer.event.UserCreatedEvent
+import org.slf4j.LoggerFactory
 
 class AccountListener(
-    private val consumer: Consumer,
-    private val mapper: ObjectMapper
+    private val service: AccountService,
+    private val userConsumer: Consumer<UserCreatedEvent>,
+    private val transferConsumer: Consumer<TransferEvent>
 ) {
 
-    fun createAccount() = consumer.consumeMessage {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
+    fun createAccount() = userConsumer.consumeMessage {
+        logger.info("Event received and creating account for user: ${it.fullDocument.id}")
+
+        val account = service.create(it.fullDocument.id)
+
+        logger.info("Account created successfully for user: ${it.fullDocument.id} account: ${account.id}")
+    }
+
+    fun transfer() = transferConsumer.consumeMessage {
 
     }
 }

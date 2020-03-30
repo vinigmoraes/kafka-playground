@@ -28,7 +28,7 @@ fun Application.main() {
         register(ContentType.Application.Json, JacksonConverter(ObjectMapperProvider.provide()))
     }
 
-    startCreateAccountListener(get())
+    startAccountListener(get())
 
     routing {
         users(get())
@@ -42,4 +42,7 @@ fun main() {
     }.start(wait = true)
 }
 
-private fun startCreateAccountListener(accountListener: AccountListener) = accountListener.createAccount()
+private fun startAccountListener(accountListener: AccountListener) {
+    accountListener.createAccount()
+    accountListener.transfer()
+}

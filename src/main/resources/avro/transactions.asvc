@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "name": "Transaction",
+  "name": "TransferTransaction",
   "namespace": "br.com.bank",
   "fields": [
     {
@@ -13,6 +13,14 @@
     },
     {
       "name": "amount",
+      "type": "string"
+    },
+    {
+      "name": "source_account",
+      "type": "string"
+    },
+    {
+      "name": "recipient_account",
       "type": "string"
     }
   ]

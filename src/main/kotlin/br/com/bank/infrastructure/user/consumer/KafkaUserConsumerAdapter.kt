@@ -15,13 +15,10 @@ import java.util.Properties
 class KafkaUserConsumerAdapter(
     private val bootstrapServer: String,
     private val topic: String
-) : Consumer {
+) : Consumer<UserCreatedEvent> {
 
     private val scope = CoroutineScope(Dispatchers.Default)
-
     private val logger = LoggerFactory.getLogger(javaClass)
-
-    private val groupId = "account-service"
 
     private val kafkaConsumer by lazy {
         KafkaConsumer<String, UserCreatedEvent>(setProperties()).also { it.subscribe(listOf(topic)) }
@@ -50,7 +47,7 @@ class KafkaUserConsumerAdapter(
             setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer)
             setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java.name)
             setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, UserMessageDeserializer::class.java.name)
-            setProperty(ConsumerConfig.GROUP_ID_CONFIG, groupId)
+            setProperty(ConsumerConfig.GROUP_ID_CONFIG, javaClass::getSimpleName.name)
             setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
         }
 }

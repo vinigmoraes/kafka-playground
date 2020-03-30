@@ -10,8 +10,7 @@ class TransferTransaction(
     val id: UUID,
     val userId: UUID,
     val amount: BigDecimal,
-    val accountSourceNumber: String,
-    val destinationUser: User
+    val recipient: User
 ) {
 
     companion object {
@@ -19,8 +18,7 @@ class TransferTransaction(
             id = UUID.randomUUID(),
             userId = account.userId,
             amount = request.amount,
-            accountSourceNumber = account.number,
-            destinationUser = User.create(request.recipient.fullName, request.recipient.cpf)
+            recipient = User.create(request.recipient.fullName, request.recipient.cpf)
         )
     }
 }

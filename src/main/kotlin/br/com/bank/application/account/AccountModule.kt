@@ -6,7 +6,7 @@ import br.com.bank.core.account.ports.Publisher
 import br.com.bank.core.transaction.TransferTransaction
 import br.com.bank.core.user.ports.Consumer
 import br.com.bank.infrastructure.account.AccountRepositoryAdapter
-import br.com.bank.infrastructure.account.transaction.KafkaTransactionPublisherAdapter
+import br.com.bank.infrastructure.account.transaction.KafkaTransferPublisherAdapter
 import br.com.bank.infrastructure.user.consumer.KafkaUserConsumerAdapter
 import org.koin.dsl.module
 
@@ -23,7 +23,7 @@ val accountModule = module {
             topic = "usersservicedb.users"
         )
     }
-    single<Publisher<String, TransferTransaction>> { KafkaTransactionPublisherAdapter(
+    single<Publisher<String, TransferTransaction>> { KafkaTransferPublisherAdapter(
         bootstrapServer = "localhost:9092",
         topic = "transfer-transactions",
         schemaRegistryUrl = "localhost:8081"
