@@ -5,6 +5,7 @@ import br.com.bank.core.account.ports.Publisher
 import br.com.bank.core.transaction.TransferTransaction
 import br.com.bank.core.account.ports.transfer.TransferRequest
 import br.com.bank.core.user.UserService
+import java.math.BigDecimal
 import java.util.UUID
 
 class AccountService(
@@ -24,7 +25,7 @@ class AccountService(
     }
 
     fun transfer(accountId: UUID, request: TransferRequest): TransferTransaction {
-        val account = repository.findById(accountId) ?: throw Exception()
+        val account = findById(accountId)
 
         account.hasEnoughBalance(request.amount)
 
@@ -34,4 +35,8 @@ class AccountService(
 
         return transaction
     }
+
+    fun updateBalance(accountId: UUID, amount: BigDecimal) = findById(accountId).updateBalance(amount)
+
+    private fun findById(accountId: UUID) = repository.findById(accountId) ?: throw Exception()
 }

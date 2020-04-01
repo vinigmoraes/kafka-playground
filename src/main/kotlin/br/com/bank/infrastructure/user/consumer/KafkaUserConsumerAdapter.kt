@@ -25,12 +25,12 @@ class KafkaUserConsumerAdapter(
     }
 
     override fun consumeMessage(action: (UserCreatedEvent) -> Unit) {
-
         logger.info("Starting listening to topics: $topic from server: $bootstrapServer")
+
+        val records = kafkaConsumer.poll(Duration.ofMillis(1000))
 
         scope.launch {
             while (true) {
-                val records = kafkaConsumer.poll(Duration.ofMillis(1000))
 
                 records.forEach {
                     logger.info("Consuming message with key: ${it.key()} value: ${it.value()} at offset: ${it.offset()}")
@@ -48,6 +48,7 @@ class KafkaUserConsumerAdapter(
             setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java.name)
             setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, UserMessageDeserializer::class.java.name)
             setProperty(ConsumerConfig.GROUP_ID_CONFIG, javaClass::getSimpleName.name)
+            setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "1")
             setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
         }
 }

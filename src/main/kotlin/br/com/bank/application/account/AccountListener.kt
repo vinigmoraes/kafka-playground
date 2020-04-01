@@ -15,7 +15,7 @@ class AccountListener(
     private val logger = LoggerFactory.getLogger(javaClass)
 
     fun createAccount() = userConsumer.consumeMessage {
-        logger.info("Event received and creating account for user: ${it.fullDocument.id}")
+        logger.info("Create account event received for user: ${it.fullDocument.id}")
 
         val account = service.create(it.fullDocument.id)
 
@@ -23,7 +23,9 @@ class AccountListener(
     }
 
     fun transfer() = transferConsumer.consumeMessage {
+        logger.info("Transfer transaction event received for user: ${it.userId}")
 
+        service.updateBalance()
     }
 }
 

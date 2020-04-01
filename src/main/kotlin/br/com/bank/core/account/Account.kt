@@ -10,7 +10,7 @@ class Account(
     val number: String
 ) {
 
-    val balance: BigDecimal = BigDecimal(0)
+    var balance: BigDecimal = BigDecimal(0)
 
     companion object {
         fun create(userId: UUID) = Account(
@@ -19,6 +19,8 @@ class Account(
             number = Random.nextInt(0, 999999).toString()
         )
     }
+
+    fun updateBalance(amount: BigDecimal) = balance.plus(amount)
 
     fun hasEnoughBalance(amount: BigDecimal) = check(amount > balance) { throw Exception() }
 }
