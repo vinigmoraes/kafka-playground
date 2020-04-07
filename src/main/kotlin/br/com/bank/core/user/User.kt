@@ -28,5 +28,10 @@ class User(
         )
     }
 
+    fun addAccount(id: UUID) {
+        hasAccount()
+        accountId == id
+    }
+
     fun hasAccount() = check(accountId == null) { throw Exception() }
 }

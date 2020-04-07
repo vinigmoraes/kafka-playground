@@ -8,24 +8,30 @@ import br.com.bank.core.user.ports.Consumer
 import br.com.bank.infrastructure.account.AccountRepositoryAdapter
 import br.com.bank.infrastructure.account.transaction.KafkaTransferPublisherAdapter
 import br.com.bank.infrastructure.user.consumer.KafkaUserConsumerAdapter
+import br.com.bank.infrastructure.user.consumer.event.UserCreatedEvent
 import org.koin.dsl.module
+import java.util.UUID
 
 val accountModule = module {
 
     single { AccountController(get(), get()) }
-    single { AccountService(get(), get()) }
+    single { AccountService(get(), get(), get()) }
     single { AccountListener(get(), get()) }
 
     single<AccountRepository> { AccountRepositoryAdapter() }
-    single<Consumer> {
+
+    single<Consumer<String, UserCreatedEvent>> {
         KafkaUserConsumerAdapter(
             bootstrapServer = "localhost:9092",
             topic = "usersservicedb.users"
         )
     }
-    single<Publisher<String, TransferTransaction>> { KafkaTransferPublisherAdapter(
-        bootstrapServer = "localhost:9092",
-        topic = "transfer-transactions",
-        schemaRegistryUrl = "localhost:8081"
-    ) }
+
+    single<Publisher<UUID, TransferTransaction>> {
+        KafkaTransferPublisherAdapter(
+            bootstrapServer = "localhost:9092",
+            topic = "transfer-transactions",
+            schemaRegistryUrl = "localhost:8081"
+        )
+    }
 }

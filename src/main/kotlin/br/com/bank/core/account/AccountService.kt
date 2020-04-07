@@ -19,9 +19,10 @@ class AccountService(
 
         user.hasAccount()
 
-        return Account
+       return Account
             .create(user.id)
             .also { repository.save(it) }
+            .also { user.addAccount(it.id) }
     }
 
     fun transfer(accountId: UUID, request: TransferRequest): TransferTransaction {
@@ -29,11 +30,11 @@ class AccountService(
 
         account.hasEnoughBalance(request.amount)
 
-        val transaction = TransferTransaction.create(account, request)
+        val transfer = TransferTransaction.create(account, request)
 
-        publisher.sendMessage(account.userId, transaction)
+        publisher.sendMessage(account.userId, transfer)
 
-        return transaction
+        return transfer
     }
 
     fun updateBalance(accountId: UUID, amount: BigDecimal) = findById(accountId).updateBalance(amount)

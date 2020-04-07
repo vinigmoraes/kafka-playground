@@ -2,6 +2,7 @@ package br.com.bank.core.user
 
 import br.com.bank.core.user.ports.CreateUserRequest
 import br.com.bank.core.user.ports.UserRepository
+import java.util.UUID
 
 class UserService(
     private val repository: UserRepository

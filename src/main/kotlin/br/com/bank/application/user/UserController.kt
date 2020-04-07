@@ -11,6 +11,7 @@ import io.ktor.http.HttpStatusCode.Companion.Created
 import io.ktor.http.HttpStatusCode.Companion.OK
 import io.ktor.request.receiveText
 import io.ktor.response.respond
+import java.util.UUID
 
 class UserController(
     private val service: UserService,

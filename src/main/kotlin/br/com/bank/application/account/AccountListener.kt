@@ -5,11 +5,12 @@ import br.com.bank.core.account.AccountService
 import br.com.bank.core.user.ports.Consumer
 import br.com.bank.infrastructure.user.consumer.event.UserCreatedEvent
 import org.slf4j.LoggerFactory
+import java.util.UUID
 
 class AccountListener(
     private val service: AccountService,
-    private val userConsumer: Consumer<UserCreatedEvent>,
-    private val transferConsumer: Consumer<TransferEvent>
+    private val userConsumer: Consumer<String, UserCreatedEvent>,
+    private val transferConsumer: Consumer<String, TransferEvent>
 ) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -25,7 +26,9 @@ class AccountListener(
     fun transfer() = transferConsumer.consumeMessage {
         logger.info("Transfer transaction event received for user: ${it.userId}")
 
-        service.updateBalance()
+        val recipientAccountId = UUID.fromString(it.recipientAccount)
+
+        service.updateBalance(recipientAccountId, it.amount)
     }
 }
 

@@ -1,6 +1,6 @@
 package br.com.bank.core.user.ports
 
-interface Consumer<T> {
+interface Consumer<K, V> {
 
-    fun consumeMessage(action: (T) -> Unit)
+    fun consumeMessage(action: (V) -> Unit)
 }

@@ -34,6 +34,9 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-jdbc", "0.18.1")
     implementation("com.zaxxer:HikariCP:3.4.1")
     implementation("org.flywaydb:flyway-core:6.1.0")
+    implementation("org.postgresql:postgresql:42.2.8")
+
+    testCompile("junit:junit:4.13")
 
     api("ch.qos.logback:logback-classic:1.2.3")
 }

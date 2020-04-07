@@ -15,8 +15,11 @@ import io.ktor.jackson.JacksonConverter
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import org.flywaydb.core.Flyway
+import org.jetbrains.exposed.sql.Database
 import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.get
+import javax.sql.DataSource
 
 fun Application.main() {
 
@@ -29,6 +32,7 @@ fun Application.main() {
     }
 
     startAccountListener(get())
+    startDatabase(get())
 
     routing {
         users(get())
@@ -44,5 +48,15 @@ fun main() {
 
 private fun startAccountListener(accountListener: AccountListener) {
     accountListener.createAccount()
-    accountListener.transfer()
+    //accountListener.transfer()
+}
+
+private fun startDatabase(dataSource: DataSource) {
+    Flyway
+        .configure()
+        .dataSource(dataSource)
+        .baselineOnMigrate(true)
+        .load()
+        .migrate()
+    Database.connect(dataSource)
 }

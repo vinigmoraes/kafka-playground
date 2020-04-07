@@ -43,6 +43,8 @@ class KafkaTransferPublisherAdapter(
         producer.send(record) { data, _ ->
             logger.info("Message sent successfully to topic: ${data.topic()} partition: ${data.partition()}")
         }
+
+        producer.close()
     }
 
     private fun setProperties() = Properties().apply {

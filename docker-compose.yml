@@ -92,9 +92,9 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./account-service/scripts/db:/docker-entrypoint-initdb.d/
+      - ./src/main/resources/db.migration:/docker-entrypoint-initdb.d/
     environment:
-      POSTGRES_DB: accountservicedb
+      POSTGRES_DB: bankdb
 
     # MongoDB Replica Set
   mongo1:

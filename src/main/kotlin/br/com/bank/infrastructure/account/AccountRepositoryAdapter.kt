@@ -16,7 +16,7 @@ object AccountTable : Table("accounts") {
 
     val id = uuid("id").primaryKey()
     val userId = uuid("user_id")
-    val accountNumber = varchar("account_number", VARCHAR_MAX_LENGTH)
+    val accountNumber = varchar("number", VARCHAR_MAX_LENGTH)
     val balance = decimal("balance", 0, 2)
 
     fun toAccount(resultRow: ResultRow) = Account(

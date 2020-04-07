@@ -11,11 +11,12 @@ import org.apache.kafka.common.serialization.StringDeserializer
 import org.slf4j.LoggerFactory
 import java.time.Duration
 import java.util.Properties
+import java.util.UUID
 
 class KafkaUserConsumerAdapter(
     private val bootstrapServer: String,
     private val topic: String
-) : Consumer<UserCreatedEvent> {
+) : Consumer<String, UserCreatedEvent> {
 
     private val scope = CoroutineScope(Dispatchers.Default)
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -27,10 +28,9 @@ class KafkaUserConsumerAdapter(
     override fun consumeMessage(action: (UserCreatedEvent) -> Unit) {
         logger.info("Starting listening to topics: $topic from server: $bootstrapServer")
 
-        val records = kafkaConsumer.poll(Duration.ofMillis(1000))
-
         scope.launch {
             while (true) {
+                val records = kafkaConsumer.poll(Duration.ofMillis(1000))
 
                 records.forEach {
                     logger.info("Consuming message with key: ${it.key()} value: ${it.value()} at offset: ${it.offset()}")
