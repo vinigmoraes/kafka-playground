@@ -17,20 +17,22 @@ class AccountService(
     fun create(userId: String): Account {
         val user = userService.findById(userId)
 
-        user.hasAccount()
+        val account = Account.create(user.id)
 
-       return Account
-            .create(user.id)
-            .also { repository.save(it) }
-            .also { user.addAccount(it.id) }
+        userService.addAccount(userId, account.id)
+
+        repository.save(account)
+
+        return account
     }
 
     fun transfer(accountId: UUID, request: TransferRequest): TransferTransaction {
         val account = findById(accountId)
+        val recipient = userService.findByCpf(request.recipient.cpf)
 
         account.hasEnoughBalance(request.amount)
 
-        val transfer = TransferTransaction.create(account, request)
+        val transfer = TransferTransaction.create(account, request.amount, recipient)
 
         publisher.sendMessage(account.userId, transfer)
 

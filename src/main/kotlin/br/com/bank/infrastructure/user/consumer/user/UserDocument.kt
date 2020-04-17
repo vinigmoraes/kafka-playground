@@ -1,4 +1,4 @@
-package br.com.bank.infrastructure.user.consumer
+package br.com.bank.infrastructure.user.consumer.user
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

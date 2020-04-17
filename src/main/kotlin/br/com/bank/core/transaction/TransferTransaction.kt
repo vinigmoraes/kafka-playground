@@ -14,11 +14,11 @@ class TransferTransaction(
 ) {
 
     companion object {
-        fun create(account: Account, request: TransferRequest) = TransferTransaction(
+        fun create(account: Account, amount: BigDecimal, recipient: User) = TransferTransaction(
             id = UUID.randomUUID(),
             userId = account.userId,
-            amount = request.amount,
-            recipient = User.create(request.recipient.fullName, request.recipient.cpf)
+            amount = amount,
+            recipient = recipient
         )
     }
 }

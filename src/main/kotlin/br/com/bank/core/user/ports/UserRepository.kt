@@ -6,5 +6,9 @@ interface UserRepository {
 
     fun save(user: User)
 
+    fun update(user: User)
+
     fun findById(id: String) : User?
+
+    fun findByCpf(cpf: String) : User?
 }

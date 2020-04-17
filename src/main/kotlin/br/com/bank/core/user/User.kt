@@ -8,9 +8,11 @@ import java.util.UUID
 class User(
     val id: UUID,
     val name: String,
-    val cpf: String,
-    val accountId: UUID? = null
+    val cpf: String
 ) {
+
+    var accountId: UUID? = null
+    private set
 
     val createdAt: LocalDateTime = LocalDateTime.now()
 
@@ -29,9 +31,7 @@ class User(
     }
 
     fun addAccount(id: UUID) {
-        hasAccount()
-        accountId == id
+        check(accountId == null) { throw Exception() }
+        accountId = id
     }
-
-    fun hasAccount() = check(accountId == null) { throw Exception() }
 }

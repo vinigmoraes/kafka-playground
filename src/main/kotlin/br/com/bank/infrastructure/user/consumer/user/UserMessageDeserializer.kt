@@ -1,4 +1,4 @@
-package br.com.bank.infrastructure.user.consumer
+package br.com.bank.infrastructure.user.consumer.user
 
 import br.com.bank.infrastructure.user.consumer.event.UserCreatedEvent
 import br.com.bankservice.application.config.ObjectMapperProvider

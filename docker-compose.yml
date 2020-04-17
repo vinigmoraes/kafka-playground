@@ -86,7 +86,7 @@ services:
       CONNECT_PLUGIN_PATH: /usr/plugins
 
   postgres:
-    container_name: postgres-account-service
+    container_name: postgres
     image: postgres:11-alpine
     command: ["-c", "max_connections=200"]
     ports:

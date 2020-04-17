@@ -51,6 +51,7 @@ class KafkaTransferPublisherAdapter(
         setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer)
         setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer::class.java.name)
         setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer::class.java.name)
+        setProperty(ProducerConfig.ACKS_CONFIG, "all")
         setProperty(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistryUrl)
     }
 }

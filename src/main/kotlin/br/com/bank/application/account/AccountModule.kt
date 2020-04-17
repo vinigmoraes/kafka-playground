@@ -7,7 +7,7 @@ import br.com.bank.core.transaction.TransferTransaction
 import br.com.bank.core.user.ports.Consumer
 import br.com.bank.infrastructure.account.AccountRepositoryAdapter
 import br.com.bank.infrastructure.account.transaction.KafkaTransferPublisherAdapter
-import br.com.bank.infrastructure.user.consumer.KafkaUserConsumerAdapter
+import br.com.bank.infrastructure.user.consumer.user.KafkaUserConsumerAdapter
 import br.com.bank.infrastructure.user.consumer.event.UserCreatedEvent
 import org.koin.dsl.module
 import java.util.UUID
@@ -16,7 +16,7 @@ val accountModule = module {
 
     single { AccountController(get(), get()) }
     single { AccountService(get(), get(), get()) }
-    single { AccountListener(get(), get()) }
+    single { AccountListener(get(), get(), get()) }
 
     single<AccountRepository> { AccountRepositoryAdapter() }
 
