@@ -5,7 +5,8 @@
   "fields": [
     {
       "name": "id",
-      "type": "string"
+      "type": "string",
+      "logicalType": "uuid"
     },
     {
       "name": "user_id",
@@ -13,11 +14,8 @@
     },
     {
       "name": "amount",
-      "type": "string"
-    },
-    {
-      "name": "source_account",
-      "type": "string"
+      "type": "string",
+      "logicalType": "decimal"
     },
     {
       "name": "recipient_account",

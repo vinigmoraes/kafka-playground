@@ -13,6 +13,7 @@ import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.StringSerializer
+import org.apache.kafka.common.serialization.UUIDSerializer
 import org.slf4j.LoggerFactory
 import java.util.Properties
 import java.util.UUID
@@ -32,7 +33,7 @@ class KafkaTransferPublisherAdapter(
     override fun sendMessage(key: UUID, value: TransferTransaction) {
         val transactionAVRO = GenericRecordBuilder(transactionSchema)
             .apply {
-                set("id", value.id.toString())
+                set("id", value.id)
                 set("user_id", value.userId)
                 set("amount", value.amount.toString())
                 set("recipient_account", value.recipient.accountId)
@@ -49,7 +50,7 @@ class KafkaTransferPublisherAdapter(
 
     private fun setProperties() = Properties().apply {
         setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer)
-        setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer::class.java.name)
+        setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, UUIDSerializer::class.java.name)
         setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer::class.java.name)
         setProperty(ProducerConfig.ACKS_CONFIG, "all")
         setProperty(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistryUrl)

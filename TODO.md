@@ -3,4 +3,5 @@
 - [] Break application into microservices
 - [] Create Architecture flow
 - [] Implement Idempotent consumer
-- [] Set Retry policy 
+- [] Set Retry policy
+- [] Implement Dead Letter queue
