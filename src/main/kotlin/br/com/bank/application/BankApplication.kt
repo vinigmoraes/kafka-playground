@@ -48,7 +48,7 @@ fun main() {
 
 private fun startAccountListener(accountListener: AccountListener) {
     accountListener.createAccount()
-    //accountListener.transfer()
+    accountListener.transfer()
 }
 
 private fun startDatabase(dataSource: DataSource) {

@@ -6,6 +6,7 @@ import io.confluent.kafka.serializers.KafkaAvroSerializer
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig
 import kotlinx.coroutines.flow.callbackFlow
 import org.apache.avro.Schema
+import org.apache.avro.generic.GenericData
 import org.apache.avro.generic.GenericRecord
 import org.apache.avro.generic.GenericRecordBuilder
 import org.apache.kafka.clients.producer.Callback
@@ -33,16 +34,19 @@ class KafkaTransferPublisherAdapter(
     override fun sendMessage(key: UUID, value: TransferTransaction) {
         val transactionAVRO = GenericRecordBuilder(transactionSchema)
             .apply {
-                set("id", value.id)
-                set("user_id", value.userId)
+                set("id", value.id.toString())
+                set("user_id", value.userId.toString())
                 set("amount", value.amount.toString())
-                set("recipient_account", value.recipient.accountId)
+                set("recipient_account", value.recipient.accountId.toString())
             }.build()
 
         val record = ProducerRecord<UUID, GenericRecord>(topic, key, transactionAVRO)
 
-        producer.send(record) { data, _ ->
-            logger.info("Message sent successfully to topic: ${data.topic()} partition: ${data.partition()}")
+        producer.send(record) { data, ex ->
+            if (ex == null)
+                logger.info("Message sent successfully to topic: ${data.topic()} partition: ${data.partition()}")
+            else
+                ex.printStackTrace()
         }
 
         producer.close()

@@ -2,6 +2,6 @@
 
 - [] Break application into microservices
 - [] Create Architecture flow
-- [] Implement Idempotent consumer
+- [] Implement Idempotent producer
 - [] Set Retry policy
 - [] Implement Dead Letter queue

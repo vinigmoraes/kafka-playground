@@ -10,7 +10,8 @@
     },
     {
       "name": "user_id",
-      "type": "string"
+      "type": "string",
+      "logicalType": "uuid"
     },
     {
       "name": "amount",
@@ -19,7 +20,8 @@
     },
     {
       "name": "recipient_account",
-      "type": "string"
+      "type": "string",
+      "logicalType": "uuid"
     }
   ]
 }

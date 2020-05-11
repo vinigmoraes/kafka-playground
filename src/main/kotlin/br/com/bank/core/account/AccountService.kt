@@ -5,6 +5,7 @@ import br.com.bank.core.account.ports.Publisher
 import br.com.bank.core.transaction.TransferTransaction
 import br.com.bank.core.account.ports.transfer.TransferRequest
 import br.com.bank.core.user.UserService
+import org.slf4j.LoggerFactory
 import java.math.BigDecimal
 import java.util.UUID
 
@@ -13,6 +14,8 @@ class AccountService(
     private val userService: UserService,
     private val publisher: Publisher<UUID, TransferTransaction>
 ) {
+
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     fun create(userId: String): Account {
         val user = userService.findById(userId)
@@ -36,10 +39,22 @@ class AccountService(
 
         publisher.sendMessage(account.userId, transfer)
 
+        account
+            .decreaseBalance(request.amount)
+            .also { repository.updateBalance(account) }
+
         return transfer
     }
 
-    fun updateBalance(accountId: UUID, amount: BigDecimal) = findById(accountId).updateBalance(amount)
+    fun receiveTransfer(accountId: UUID, amount: BigDecimal) {
+        val account = findById(accountId)
+
+        logger.info("Updating account: $accountId balance")
+
+        account.increaseBalance(amount)
+
+        repository.updateBalance(account)
+    }
 
     private fun findById(accountId: UUID) = repository.findById(accountId) ?: throw Exception()
 }

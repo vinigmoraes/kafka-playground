@@ -8,4 +8,6 @@ interface AccountRepository {
     fun save(account: Account)
 
     fun findById(accountId: UUID) : Account?
+
+    fun updateBalance(account: Account)
 }

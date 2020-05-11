@@ -28,7 +28,7 @@ class AccountListener(
 
         val recipientAccountId = UUID.fromString(it.recipientAccount)
 
-        service.updateBalance(recipientAccountId, it.amount)
+        service.receiveTransfer(recipientAccountId, it.amount)
     }
 }
 

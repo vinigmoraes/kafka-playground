@@ -20,11 +20,13 @@ class Account(
         )
     }
 
-    fun updateBalance(amount: BigDecimal) {
-        if (balance.plus(amount) > BigDecimal.ZERO) {
-            balance += amount
-        }
+    fun increaseBalance(amount: BigDecimal) {
+        balance += amount
     }
 
-    fun hasEnoughBalance(amount: BigDecimal) = check(amount > balance) { throw Exception() }
+    fun decreaseBalance(amount: BigDecimal) {
+        balance -= amount
+    }
+
+    fun hasEnoughBalance(amount: BigDecimal) = check(amount <= balance) { throw Exception() }
 }

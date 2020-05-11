@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 import org.slf4j.LoggerFactory
 import java.util.UUID
 
@@ -31,7 +32,7 @@ class AccountRepositoryAdapter : AccountRepository {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun save(account: Account) {
-
+        logger.info("Persisting account: ${account.id}")
         transaction {
             AccountTable.insert {
                 it[id] = account.id
@@ -51,6 +52,16 @@ class AccountRepositoryAdapter : AccountRepository {
                 .select { AccountTable.id eq accountId }
                 .firstOrNull()
                 ?.let { AccountTable.toAccount(it) }
+        }
+    }
+
+    override fun updateBalance(account: Account) {
+        logger.info("Updating account: ${account.id}")
+
+        transaction {
+            AccountTable.update({AccountTable.id eq account.id}) {
+                it[balance] = account.balance
+            }
         }
     }
 }
