@@ -18,7 +18,7 @@ class AccountTest {
     fun `given positive amount should increase account balance`() {
         val amount = BigDecimal(50)
 
-        account.updateBalance(amount)
+        account.increaseBalance(amount)
 
         assertEquals(account.balance, BigDecimal(50))
     }
@@ -28,7 +28,7 @@ class AccountTest {
         account.balance = BigDecimal(100)
         val amount = BigDecimal(-50)
 
-        account.updateBalance(amount)
+        account.decreaseBalance(amount)
 
         assertEquals(account.balance, BigDecimal(50))
     }

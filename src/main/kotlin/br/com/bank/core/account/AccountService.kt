@@ -29,7 +29,7 @@ class AccountService(
         return account
     }
 
-    fun transfer(accountId: UUID, request: TransferRequest): TransferTransaction {
+    fun executeTransfer(accountId: UUID, request: TransferRequest): TransferTransaction {
         val account = findById(accountId)
         val recipient = userService.findByCpf(request.recipient.cpf)
 

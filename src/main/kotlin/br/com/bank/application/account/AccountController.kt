@@ -21,7 +21,7 @@ class AccountController(
 
         val request = mapper.readValue(json, TransferRequest::class.java)
 
-        val transaction = service.transfer(accountId, request)
+        val transaction = service.executeTransfer(accountId, request)
 
         call.respond(Created, TransferResponse.create(transaction))
     }

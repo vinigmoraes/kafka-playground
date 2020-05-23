@@ -43,13 +43,13 @@ class KafkaTransferPublisherAdapter(
         val record = ProducerRecord<UUID, GenericRecord>(topic, key, transactionAVRO)
 
         producer.send(record) { data, ex ->
-            if (ex == null)
+            if (ex == null) {
                 logger.info("Message sent successfully to topic: ${data.topic()} partition: ${data.partition()}")
-            else
+                producer.close()
+            } else {
                 ex.printStackTrace()
+            }
         }
-
-        producer.close()
     }
 
     private fun setProperties() = Properties().apply {
@@ -57,6 +57,7 @@ class KafkaTransferPublisherAdapter(
         setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, UUIDSerializer::class.java.name)
         setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer::class.java.name)
         setProperty(ProducerConfig.ACKS_CONFIG, "all")
+        setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true")
         setProperty(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistryUrl)
     }
 }

@@ -24,7 +24,9 @@ object AccountTable : Table("accounts") {
         id = resultRow[id],
         userId = resultRow[userId],
         number = resultRow[accountNumber]
-    )
+    ).apply {
+        balance = resultRow[AccountTable.balance]
+    }
 }
 
 class AccountRepositoryAdapter : AccountRepository {
